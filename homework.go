@@ -1,6 +1,7 @@
 package homework01
 
 import (
+	"sort"
 	"strconv"
 )
 
@@ -105,8 +106,28 @@ func RemoveDuplicates(nums []int) int {
 // 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。
 // 请你合并所有重叠的区间，并返回一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间。
 func Merge(intervals [][]int) [][]int {
-	// TODO: implement
-	return nil
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+	var result [][]int
+	row := make([]int, 2)
+	row[0] = intervals[0][0]
+	row[1] = intervals[0][1]
+	result = append(result, row)
+	for i := 1; i < len(intervals); i++ {
+		last := result[len(result)-1]
+		if last[1] >= intervals[i][0] {
+			if last[1] < intervals[i][1] {
+				last[1] = intervals[i][1]
+			}
+		} else {
+			row := make([]int, 2)
+			row[0] = intervals[i][0]
+			row[1] = intervals[i][1]
+			result = append(result, row)
+		}
+	}
+	return result
 }
 
 // 8. 两数之和

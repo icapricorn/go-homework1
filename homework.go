@@ -64,8 +64,22 @@ func IsValid(s string) bool {
 // 4. 最长公共前缀
 // 查找字符串数组中的最长公共前缀
 func LongestCommonPrefix(strs []string) string {
-	// TODO: implement
-	return ""
+	result := strs[0]
+	for _, v := range strs {
+		j := 0
+		l := len(result)
+		if len(v) < len(result) {
+			l = len(v)
+		}
+		for i := 0; i < l; i++ {
+			if result[i] != v[i] {
+				break
+			}
+			j++
+		}
+		result = result[0:j]
+	}
+	return result
 }
 
 // 5. 加一
@@ -92,14 +106,14 @@ func PlusOne(digits []int) []int {
 // 给你一个有序数组 nums ，请你原地删除重复出现的元素，使每个元素只出现一次，返回删除后数组的新长度。
 // 不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。
 func RemoveDuplicates(nums []int) int {
-	for i := 1; i < len(nums); {
-		if nums[i] == nums[i-1] {
+	i := 0
+	for j := 1; j < len(nums); j++ {
+		if nums[j] != nums[i] {
 			i++
-		} else {
-			i++
+			nums[i] = nums[j]
 		}
 	}
-	return 0
+	return i + 1
 }
 
 // 7. 合并区间
